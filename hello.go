@@ -2,23 +2,36 @@ package main
 
 import "fmt"
 
-var helloPrefixTranslation map[string]string = map[string]string {
-    "ru": "Привет, ",
-    "en": "Hello, ",
-    "es": "Hola, ",
-}
+const (
+	english = "en"
+	spanish = "es"
+	russian = "ru"
+)
 
+const (
+	englishHelloPrefix = "Hello, "
+	spanishHelloPrefix = "Hola, "
+	russianHelloPrefix = "Привет, "
+)
 
 func Hello(name string, language string) string {
 	if name == "" {
 		name = "World"
 	}
 
-	if helloPrefix, helloPrefixExist := helloPrefixTranslation[language]; helloPrefixExist {
-		return helloPrefix + name + "!"
-	}
+	return greetingPrefix(language) + name + "!"
+}
 
-	return helloPrefixTranslation["en"] + name + "!"
+func greetingPrefix(language string) (prefix string) {
+	switch language {
+	case spanish:
+		prefix = spanishHelloPrefix
+	case russian:
+		prefix = russianHelloPrefix
+	default:
+		prefix = englishHelloPrefix
+	}
+	return
 }
 
 func main() {
