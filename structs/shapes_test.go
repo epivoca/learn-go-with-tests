@@ -5,6 +5,7 @@ import (
 )
 
 func TestPerimeter(t *testing.T) {
+	t.Parallel() // marks TestPerimeter as capable of running in parallel with other tests
 	perimeterTests := map[string]struct {
 		shape        Shape
 		hasPerimeter float64
@@ -24,7 +25,7 @@ func TestPerimeter(t *testing.T) {
 	}
 
 	for name, tt := range perimeterTests {
-		tt := tt
+		tt := tt // NOTE: /wiki/CommonMistakes#using-goroutines-on-loop-iterator-variables
 		t.Run(name, func(t *testing.T) {
 			if got, expected := tt.shape.Perimeter(), tt.hasPerimeter; got != expected {
 				t.Errorf("%#v got %g want %g", tt.shape, got, tt.hasPerimeter)
@@ -34,6 +35,8 @@ func TestPerimeter(t *testing.T) {
 }
 
 func TestArea(t *testing.T) {
+	t.Parallel() // marks TestArea as capable of running in parallel with other tests
+
 	areaTests := map[string]struct {
 		shape   Shape
 		hasArea float64
@@ -53,7 +56,7 @@ func TestArea(t *testing.T) {
 	}
 
 	for name, tt := range areaTests {
-		tt := tt
+		tt := tt // NOTE: /wiki/CommonMistakes#using-goroutines-on-loop-iterator-variables
 		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 			if got, expected := tt.shape.Area(), tt.hasArea; got != expected {
