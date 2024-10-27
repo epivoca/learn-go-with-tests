@@ -9,7 +9,7 @@ func TestSearch(t *testing.T) {
 	// dictionary := map[string]string{word: definition}
 	dictionary := Dictionary{word: definition}
 
-	got := dictionary.Search(dictionary, word)
+	got := dictionary.Search(word)
 	want := definition
 
 	assertStrings(t, got, want)
