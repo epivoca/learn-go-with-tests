@@ -6,7 +6,6 @@ func TestSearch(t *testing.T) {
 	word := "test"
 	definition := "google.com"
 	noDefinition := ""
-	unknownWordErrMsg := "could not find the word you were looking for"
 
 	dictionary := Dictionary{word: definition}
 
@@ -22,8 +21,8 @@ func TestSearch(t *testing.T) {
 			t.Fatal("expected to get an errror")
 		}
 
-		assertStrings(t, err.Error(), unknownWordErrMsg)
 		assertStrings(t, got, noDefinition)
+		assertError(t, err, ErrNotFound)
 	})
 }
 
@@ -32,5 +31,13 @@ func assertStrings(t testing.TB, got, want string) {
 
 	if got != want {
 		t.Errorf("got %q want %q", got, want)
+	}
+}
+
+func assertError(t testing.TB, got, want error) {
+	t.Helper()
+
+	if got != want {
+		t.Errorf("got error %q want %q", got, want)
 	}
 }
