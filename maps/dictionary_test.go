@@ -5,14 +5,24 @@ import "testing"
 func TestSearch(t *testing.T) {
 	word := "test"
 	definition := "google.com"
+	unknownWordErrMsg := "could not find the word you were looking for"
 
-	// dictionary := map[string]string{word: definition}
 	dictionary := Dictionary{word: definition}
 
-	got := dictionary.Search(word)
-	want := definition
+	t.Run("known word", func(t *testing.T) {
+		got, _ := dictionary.Search(word)
 
-	assertStrings(t, got, want)
+		assertStrings(t, got, definition)
+	})
+
+	t.Run("unknown word", func(t *testing.T) {
+		got, err := dictionary.Search("dafsfasdf")
+		if err == nil {
+			t.Fatal("expected to get an errror")
+		}
+
+		assertStrings(t, got, unknownWordErrMsg)
+	})
 }
 
 func assertStrings(t testing.TB, got, want string) {
