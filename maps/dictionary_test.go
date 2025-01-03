@@ -10,8 +10,11 @@ func TestSearch(t *testing.T) {
 	dictionary := Dictionary{word: definition}
 
 	t.Run("known word", func(t *testing.T) {
-		got, _ := dictionary.Search(word)
+		got, err := dictionary.Search(word)
 
+		if err != nil {
+			t.Fatal("should find added word:", err)
+		}
 		assertStrings(t, got, definition)
 	})
 
@@ -33,7 +36,11 @@ func TestAdd(t *testing.T) {
 
 	t.Run("add word", func(t *testing.T) {
 		dictionary.Add(newWord, newWordDefinition)
-		got, _ := dictionary.Search(newWord)
+		got, err := dictionary.Search(newWord)
+
+		if err != nil {
+			t.Fatal("should find added word:", err)
+		}
 
 		assertStrings(t, got, newWordDefinition)
 	})
