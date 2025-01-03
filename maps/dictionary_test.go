@@ -26,6 +26,19 @@ func TestSearch(t *testing.T) {
 	})
 }
 
+func TestAdd(t *testing.T) {
+	dictionary := Dictionary{}
+	newWord := "cat"
+	newWordDefinition := "cute animal with four legs"
+
+	t.Run("add word", func(t *testing.T) {
+		dictionary.Add(newWord, newWordDefinition)
+		got, _ := dictionary.Search(newWord)
+
+		assertStrings(t, got, newWordDefinition)
+	})
+}
+
 func assertStrings(t testing.TB, got, want string) {
 	t.Helper()
 
