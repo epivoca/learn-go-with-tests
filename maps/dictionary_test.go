@@ -17,6 +17,7 @@ func TestSearch(t *testing.T) {
 		if err != nil {
 			t.Fatal("should find added word:", err)
 		}
+		assertError(t, err, nil)
 		assertStrings(t, got, definition)
 	})
 
@@ -38,9 +39,8 @@ func TestAdd(t *testing.T) {
 		definition := "cute animal with four legs"
 
 		err := dictionary.Add(word, definition)
-		if err != nil {
-			t.Fatal("should add new word:", err)
-		}
+
+		assertError(t, err, nil)
 		assertDefinition(t, dictionary, word, definition)
 	})
 
@@ -67,10 +67,7 @@ func TestUpdate(t *testing.T) {
 	newDefinition := "frinedly version of a wolf"
 	err := dictionary.Update(word, newDefinition)
 
-	if err != nil {
-		t.Fatal("should update definition:", err)
-	}
-
+	assertError(t, err, nil)
 	assertDefinition(t, dictionary, word, newDefinition)
 }
 
@@ -78,10 +75,8 @@ func assertDefinition(t testing.TB, dictionary Dictionary, word, definition stri
 	t.Helper()
 
 	got, err := dictionary.Search(word)
-	if err != nil {
-		t.Fatal("should find added word:", err)
-	}
 
+	assertError(t, err, nil)
 	assertStrings(t, got, definition)
 }
 
