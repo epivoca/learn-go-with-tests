@@ -36,14 +36,19 @@ func TestAdd(t *testing.T) {
 
 	t.Run("add word", func(t *testing.T) {
 		dictionary.Add(newWord, newWordDefinition)
-		got, err := dictionary.Search(newWord)
-
-		if err != nil {
-			t.Fatal("should find added word:", err)
-		}
-
-		assertStrings(t, got, newWordDefinition)
+		assertDefinition(t, dictionary, newWord, newWordDefinition)
 	})
+}
+
+func assertDefinition(t testing.TB, dictionary Dictionary, word, definition string) {
+	t.Helper()
+
+	got, err := dictionary.Search(word)
+	if err != nil {
+		t.Fatal("should find added word:", err)
+	}
+
+	assertStrings(t, got, definition)
 }
 
 func assertStrings(t testing.TB, got, want string) {
