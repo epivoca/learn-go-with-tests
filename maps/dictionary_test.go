@@ -13,20 +13,12 @@ func TestSearch(t *testing.T) {
 
 	t.Run("known word", func(t *testing.T) {
 		got, err := dictionary.Search(word)
-
-		if err != nil {
-			t.Fatal("should find added word:", err)
-		}
 		assertError(t, err, nil)
 		assertStrings(t, got, definition)
 	})
 
 	t.Run("unknown word", func(t *testing.T) {
 		got, err := dictionary.Search("dafsfasdf")
-		if err == nil {
-			t.Fatal("expected to get an errror")
-		}
-
 		assertStrings(t, got, noDefinition)
 		assertError(t, err, ErrNotFound)
 	})
@@ -50,9 +42,6 @@ func TestAdd(t *testing.T) {
 		dictionary := Dictionary{word: definition}
 
 		err := dictionary.Add(word, definition)
-		if err == nil {
-			t.Fatal("expected to get an error")
-		}
 
 		assertError(t, err, ErrWordExists)
 		assertDefinition(t, dictionary, word, definition)
@@ -60,15 +49,25 @@ func TestAdd(t *testing.T) {
 }
 
 func TestUpdate(t *testing.T) {
-	word := "dog"
-	definition := "friendliest pet"
-	dictionary := Dictionary{word: definition}
+	t.Run("update definition for existing word", func(t *testing.T) {
+		word := "dog"
+		definition := "friendliest pet"
+		dictionary := Dictionary{word: definition}
 
-	newDefinition := "frinedly version of a wolf"
-	err := dictionary.Update(word, newDefinition)
+		newDefinition := "frinedly version of a wolf"
+		err := dictionary.Update(word, newDefinition)
 
-	assertError(t, err, nil)
-	assertDefinition(t, dictionary, word, newDefinition)
+		assertError(t, err, nil)
+		assertDefinition(t, dictionary, word, newDefinition)
+	})
+	t.Run("update definition for new word", func(t *testing.T) {
+		dictionary := Dictionary{}
+		word := "dog"
+		definition := "friendliest pet"
+
+		err := dictionary.Update(word, definition)
+		assertError(t, err, ErrWordDoesNotExist)
+	})
 }
 
 func assertDefinition(t testing.TB, dictionary Dictionary, word, definition string) {
