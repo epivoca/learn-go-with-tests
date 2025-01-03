@@ -59,6 +59,21 @@ func TestAdd(t *testing.T) {
 	})
 }
 
+func TestUpdate(t *testing.T) {
+	word := "dog"
+	definition := "friendliest pet"
+	dictionary := Dictionary{word: definition}
+
+	newDefinition := "frinedly version of a wolf"
+	err := dictionary.Update(word, newDefinition)
+
+	if err != nil {
+		t.Fatal("should update definition:", err)
+	}
+
+	assertDefinition(t, dictionary, word, newDefinition)
+}
+
 func assertDefinition(t testing.TB, dictionary Dictionary, word, definition string) {
 	t.Helper()
 
