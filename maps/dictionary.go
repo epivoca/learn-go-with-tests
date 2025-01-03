@@ -1,9 +1,13 @@
 package maps
 
+// Dictionary store definitions to words.
 type Dictionary map[string]string
 
 const (
-	ErrNotFound   = DictionaryErr("could not find the word you were looking for")
+	// ErrNotFound means the definition could not be found for the given word
+	ErrNotFound = DictionaryErr("could not find the word you were looking for")
+
+	// ErrWordExists means you are trying to add a word that is already known
 	ErrWordExists = DictionaryErr("cannot add word because it already exists")
 )
 
@@ -13,8 +17,7 @@ func (e DictionaryErr) Error() string {
 	return string(e)
 }
 
-// Search searches for a word in the dictionary and returns its definition
-// or ErrNotFound if no definition was found
+// Search fins a word in the dictionary and returns its definition
 func (d Dictionary) Search(word string) (string, error) {
 	definition, definitionExists := d[word]
 	if !definitionExists {
@@ -24,8 +27,7 @@ func (d Dictionary) Search(word string) (string, error) {
 	return definition, nil
 }
 
-// Add adds a new word and a definition to the dictionary and returns ErrWordExists
-// if a word already exists
+// Add inserts a new word and a definition to the dictionary
 func (d Dictionary) Add(word, definition string) error {
 	_, err := d.Search(word)
 
@@ -46,6 +48,7 @@ func (d Dictionary) Add(word, definition string) error {
 	return nil
 }
 
+// Update changes definition for an existing word
 func (d Dictionary) Update(word, definition string) error {
 	_, err := d.Search(word)
 
