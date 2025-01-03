@@ -38,7 +38,7 @@ func TestAdd(t *testing.T) {
 		definition := "cute animal with four legs"
 
 		err := dictionary.Add(word, definition)
-		if !err {
+		if err != nil {
 			t.Fatal("should add new word:", err)
 		}
 		assertDefinition(t, dictionary, word, definition)
