@@ -23,7 +23,7 @@ func (d Dictionary) Search(word string) (string, error) {
 // Add adds a new word and a definition to the dictionary and returns ErrWordExists
 // if a word already exists
 func (d Dictionary) Add(word, definition string) error {
-	// Must abort Add for existing words because it would have a modifying behaviour which is not
+	// Must abort Add for existing words because it would have a modify them which is not
 	// an expected behavior
 	if _, err := d.Search(word); err == nil {
 		return ErrWordExists
